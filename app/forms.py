@@ -21,6 +21,7 @@ class RegistrationForm(FlaskForm):
         validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Register')
 
+    # 通过定义validate开头的类方法自定义验证器
     def validate_username(self, username):
         """验证用户名是否已被注册"""
         user = User.query.filter_by(username=username.data).first()
@@ -38,3 +39,15 @@ class EditProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     about_me = TextAreaField('About me', validators=[Length(min=0, max=140)])
     submit = SubmitField('Submit')
+
+    def __init__(self, original_username, *args, **kwargs):
+        super(EditProfileForm, self).__init__(*args, **kwargs)
+        self.original_username = original_username
+
+    def validate_username(self, username):
+        """检查名字是否合法"""
+        # 同时多个进程同时读取数据库的时候可能仍会存在问题
+        if username.data != self.original_username:
+            user = User.query.filter_by(username=self.username.data).first()
+            if user is not None:
+                raise ValidationError('Username had been used.')

@@ -1,4 +1,5 @@
 __pycache__/
 flaskenv/
 migrations/
+logs/
 app.db

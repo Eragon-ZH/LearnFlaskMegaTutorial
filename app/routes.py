@@ -95,7 +95,7 @@ def before_request():
 @login_required
 def edit_profile():
     """编辑个人资料"""
-    form = EditProfileForm()
+    form = EditProfileForm(current_user.username)
     if form.validate_on_submit():
         current_user.username = form.username.data
         current_user.about_me = form.about_me.data
