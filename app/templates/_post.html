@@ -1,0 +1,7 @@
+<!-- 单个post的模板，文件名前缀_为约定俗成 -->
+<table>
+  <tr valign="top">
+    <td><img src="{{ post.author.avatar(36) }}"></td>
+    <td>{{ post.author.username }} says: <br>{{ post.body }}</td>
+  </tr>
+</table>

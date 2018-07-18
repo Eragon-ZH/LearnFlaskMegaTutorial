@@ -1,6 +1,7 @@
 from datetime import datetime
 from werkzeug import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from hashlib import md5
 
 from app import db, login
 
@@ -16,15 +17,25 @@ class User(UserMixin, db.Model):
     # 在一对多中的‘一’定义relationship，backref定义‘多’对象字段的名称
     # lazy定义关系数据库查询将如何发布
     posts = db.relationship('Post', backref='author', lazy='dynamic')
+    about_me = db.Column(db.String(140))
+    last_seen = db.Column(db.DateTime, default=datetime.utcnow)
 
     def set_password(self, password):
+        """保存密码的哈希"""
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
+        """检查密码"""
         return check_password_hash(self.password_hash, password)
 
-    # 打印
+    def avatar(self, size):
+        """使用用户的邮箱从gravatar网站获取头像"""
+        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
+        return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
+            digest, size)
+
     def __repr__(self):
+        """打印"""
         return '<User {}>'.format(self.username)
 
 class Post(db.Model):
