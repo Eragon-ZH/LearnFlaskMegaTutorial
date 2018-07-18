@@ -4,12 +4,14 @@ from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 from app.models import User
 
 class LoginForm(FlaskForm):
+    """登录表单"""
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In')
 
 class RegistrationForm(FlaskForm):
+    """注册表单"""
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(),Email()])
     password = PasswordField('Password', validators=[DataRequired()])
@@ -18,11 +20,13 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Register')
 
     def validate_username(self, username):
+        """验证用户名是否已被注册"""
         user = User.query.filter_by(username=username.data).first()
         if user is not None:
             raise ValidationError('Please use a different username.')
 
     def validate_email(self, email):
+        """验证邮箱是否已被注册"""
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Email had been used')

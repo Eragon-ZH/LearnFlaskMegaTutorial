@@ -40,4 +40,6 @@ class Post(db.Model):
 
 @login.user_loader
 def load_user(id):
+    """借助@login.user_loader装饰器注册到Flask-Login"""
+    # id是作为字符串传入的，所以查询的时候需要转换成int
     return User.query.get(int(id))

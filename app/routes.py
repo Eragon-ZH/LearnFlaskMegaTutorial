@@ -9,7 +9,7 @@ from app.forms import LoginForm, RegistrationForm
 @app.route('/index')
 @login_required
 def index():
-    # user = { 'username': 'Dovahkiin' }
+    """主页"""
     posts = [
         {
             'author': {'username': 'John'},
@@ -24,6 +24,7 @@ def index():
 
 @app.route('/register', methods=['GET','POST'])
 def register():
+    """注册"""
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     form = RegistrationForm()
@@ -32,12 +33,13 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('Congratulations, you are now registered user!')
+        flash('Congratulations, you are now a registered user!')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
 @app.route('/login', methods=['GET','POST'])
 def login():
+    """登录"""
     # 已经登录直接跳转主页
     if current_user.is_authenticated:
         return redirect(url_for('index'))
@@ -63,5 +65,6 @@ def login():
 
 @app.route('/logout')
 def logout():
+    """登出"""
     logout_user()
     return redirect(url_for('index'))

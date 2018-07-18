@@ -14,7 +14,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 # 登录管理对象
 login = LoginManager(app)
-# 使用login_required装饰器需要指定login_view
+# 使用login_required装饰器需要指定login_view（登录的视图函数）
 login.login_view = 'login'
 
 from app import routes, models
