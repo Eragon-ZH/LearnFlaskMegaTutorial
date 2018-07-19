@@ -51,3 +51,9 @@ class EditProfileForm(FlaskForm):
             user = User.query.filter_by(username=self.username.data).first()
             if user is not None:
                 raise ValidationError('Username had been used.')
+
+class PostForm(FlaskForm):
+    """发表微博表单"""
+    post = TextAreaField('Say someting', validators=[
+        DataRequired(), Length(min=1, max=140)])
+    submit = SubmitField('Submit')

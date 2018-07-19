@@ -22,3 +22,5 @@ class Config(object):
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     # 邮箱地址
     ADMINS = ['your-email@example.com']
+    # 每页显示的post数量
+    POSTS_PRE_PAGE = 25

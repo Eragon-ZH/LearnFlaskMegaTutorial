@@ -4,25 +4,48 @@ from werkzeug.urls import url_parse
 from datetime import datetime
 
 from app import app, db
-from app.models import User
-from app.forms import LoginForm, RegistrationForm, EditProfileForm
+from app.models import User, Post
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, PostForm
 
-@app.route('/')
-@app.route('/index')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
     """主页"""
-    posts = [
-        {
-            'author': {'username': 'John'},
-            'body': 'Beautiful day in NewYork!'
-        },
-        {
-            'author': {'username': 'Finch'},
-            'body': 'The Avengers movie was so cool!'
-        }
-    ]
-    return render_template('index.html', title='Home', posts=posts)
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(body=form.post.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('Your post is now live!')
+        return redirect(url_for('index'))
+    # 从request.args获取页码
+    page = request.args.get('page', 1, type=int)
+    # 获取posts。paginate(页码，每页条目数，True返回404错误|False返回空列表)
+    posts = current_user.followed_posts().paginate(
+        page, app.config['POSTS_PRE_PAGE'], False)
+    # paginate()返回Pagination对象具有items、next_num、has_next等属性
+    next_url = url_for('index', page=posts.next_num) \
+        if posts.has_next else None
+    prev_url = url_for('index', page=posts.prev_num) \
+        if posts.has_prev else None
+    return render_template('index.html', title='Home Page', form=form,
+                            posts=posts.items, next_url=next_url,
+                            prev_url=prev_url)
+
+@app.route('/explore')
+@login_required
+def explore():
+    """探索，显示所有post"""
+    page = request.args.get('page', 1, type=int)
+    posts = Post.query.order_by(Post.timestamp.desc()).paginate(
+        page, app.config['POSTS_PRE_PAGE'], False)
+    next_url = url_for('explore', page=posts.next_num) \
+        if posts.has_next else None
+    prev_url = url_for('explore', page=posts.prev_num) \
+        if posts.has_prev else None
+    return render_template('index.html', title='Explore', posts=posts.items,
+                            next_url=next_url, prev_url=prev_url)
 
 @app.route('/register', methods=['GET','POST'])
 def register():
@@ -78,11 +101,15 @@ def user(username):
     """用户"""
     # 没有结果会向服务器发404错误
     user = User.query.filter_by(username=username).first_or_404()
-    posts = [
-        {'author': user, 'body': 'Test post#1'},
-        {'author': user, 'body': 'Test post#2'},
-    ]
-    return render_template('user.html', user=user, posts=posts)
+    page = request.args.get('page', 1, type=int)
+    posts = user.posts.order_by(Post.timestamp.desc()).paginate(
+        page, app.config['POSTS_PRE_PAGE'], False)
+    next_url = url_for('user', username=username, page=posts.next_num) \
+        if posts.has_next else None
+    prev_url = url_for('user', username=username, page=posts.prev_num) \
+        if posts.has_prev else None
+    return render_template('user.html', user=user, posts=posts.items,
+                            next_url=next_url, prev_url=prev_url)
 
 @app.before_request
 def before_request():
