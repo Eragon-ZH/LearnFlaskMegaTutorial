@@ -7,6 +7,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 from logging.handlers import SMTPHandler
 from flask_mail import Mail
+from flask_bootstrap import Bootstrap
 import os
 
 # flask对象
@@ -23,6 +24,8 @@ login = LoginManager(app)
 login.login_view = 'login'
 # 邮件对象
 mail = Mail(app)
+# Bootstrap对象
+bootstrap = Bootstrap(app)
 
 # 应用实例创建后导入模块
 from app import routes, models, errors
