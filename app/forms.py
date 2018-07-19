@@ -34,6 +34,18 @@ class RegistrationForm(FlaskForm):
         if user is not None:
             raise ValidationError('Email had been used')
 
+class ResetPasswordRequestForm(FlaskForm):
+    """重置密码请求表单"""
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Request Password Reset')
+
+class ResetPasswordForm(FlaskForm):
+    """重置密码表单"""
+    password = PasswordField('Password', validators=[DataRequired()])
+    password2 = PasswordField('Repeat Password',
+                            validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Request Password Reset')
+
 class EditProfileForm(FlaskForm):
     """个人资料编辑表单"""
     username = StringField('Username', validators=[DataRequired()])

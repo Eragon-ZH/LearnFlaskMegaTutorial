@@ -2,8 +2,10 @@ from datetime import datetime
 from werkzeug import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from hashlib import md5
+from time import time
+import jwt
 
-from app import db, login
+from app import app, db, login
 
 # followers关联表
 followers = db.Table('followers',
@@ -45,6 +47,24 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         """检查密码"""
         return check_password_hash(self.password_hash, password)
+
+    def get_reset_password_token(self, expires_in=600):
+        """创建加密令牌"""
+        return jwt.encode(
+            #有效载荷，到期时间，加密密钥，加密算法
+            {'reset_password': self.id, 'exp':time() + expires_in},
+            app.config['SECRET_KEY'], algorithm='HS256').decode('utf-8')
+
+    # 静态方法不会接受类作为第一个参数，可以直接从类中调用
+    @staticmethod
+    def verify_reset_password_token(token):
+        """验证令牌"""
+        try:
+            id = jwt.decode(token, app.config['SECRET_KEY'],
+                            algorithm=['HS256'])['reset_password']
+        except:
+            return
+        return User.query.get(id)
 
     def avatar(self, size):
         """使用用户的邮箱从gravatar网站获取头像"""

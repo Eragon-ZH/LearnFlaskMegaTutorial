@@ -6,6 +6,7 @@ from flask_login import LoginManager
 import logging
 from logging.handlers import RotatingFileHandler
 from logging.handlers import SMTPHandler
+from flask_mail import Mail
 import os
 
 # flask对象
@@ -20,6 +21,8 @@ migrate = Migrate(app, db)
 login = LoginManager(app)
 # 使用login_required装饰器需要指定login_view（登录的视图函数）
 login.login_view = 'login'
+# 邮件对象
+mail = Mail(app)
 
 # 应用实例创建后导入模块
 from app import routes, models, errors
