@@ -48,6 +48,12 @@
     {% endif %}
     {% endwith %}
 
+    {# 使用Flask-Moment需要在页面导入moment.js #}
+    {% block scripts %}
+      {{ super() }}
+      {{ moment.include_moment() }}
+    {% endblock %}
+
     {% block app_content %}
     {# 其他子模块的内容会展示在这一块 #}
     {% endblock %}
