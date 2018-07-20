@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -9,6 +9,8 @@ from logging.handlers import SMTPHandler
 from flask_mail import Mail
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
+from flask_babel import Babel
+from flask_babel import Babel, lazy_gettext as _l
 import os
 
 # flask对象
@@ -23,15 +25,23 @@ migrate = Migrate(app, db)
 login = LoginManager(app)
 # 使用login_required装饰器需要指定login_view（登录的视图函数）
 login.login_view = 'login'
+login.login_message = _l('Please log in to access this page')
 # 邮件对象
 mail = Mail(app)
 # Bootstrap对象
 bootstrap = Bootstrap(app)
 # Moment对象
 moment = Moment(app)
+# Babel对象
+babel = Babel(app)
 
 # 应用实例创建后导入模块
 from app import routes, models, errors
+
+@babel.localeselector
+def get_locale():
+    """选择最匹配的语言"""
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 # 不以调试模式启动时获取日志
 if not app.debug:

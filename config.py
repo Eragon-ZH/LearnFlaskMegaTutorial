@@ -24,3 +24,5 @@ class Config(object):
     ADMINS = ['your-email@example.com']
     # 每页显示的post数量
     POSTS_PRE_PAGE = 25
+    # 语言
+    LANGUAGES = ['en' , 'cn', 'zh_CN']
