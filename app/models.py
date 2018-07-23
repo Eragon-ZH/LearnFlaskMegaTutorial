@@ -69,7 +69,7 @@ class User(UserMixin, db.Model):
     def avatar(self, size):
         """使用用户的邮箱从gravatar网站获取头像"""
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
-        return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
+        return 'https://www.gravatar.com/avatar/{}?d=robohash&s={}'.format(
             digest, size)
 
     def follow(self, user):
@@ -112,6 +112,7 @@ class Post(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     # post的id作为外键关联到user的id
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    language = db.Column(db.String(5))
 
     def __repr__(self):
         return '<Post {}>'.format(self.body)
