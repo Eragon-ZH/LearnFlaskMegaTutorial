@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-07-24 17:40+0800\n"
+"POT-Creation-Date: 2018-07-24 22:10+0800\n"
 "PO-Revision-Date: 2018-07-20 14:18+0800\n"
 "Last-Translator: Dovahkiin\n"
 "Language: zh_Hans_CN\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: app/__init__.py:23
+#: app/__init__.py:24
 msgid "Please log in to access this page"
 msgstr "请登录后查看"
 
@@ -38,7 +38,7 @@ msgstr "错误：翻译失败"
 msgid "[Microblog] Reset Your Password"
 msgstr "重置密码"
 
-#: app/auth/forms.py:9 app/auth/forms.py:16 app/main/forms.py:10
+#: app/auth/forms.py:9 app/auth/forms.py:16 app/main/forms.py:11
 msgid "Username"
 msgstr "用户名"
 
@@ -99,61 +99,65 @@ msgstr "重置密码"
 msgid "Your password has been reset."
 msgstr "你的密码已重置"
 
-#: app/main/forms.py:11
+#: app/main/forms.py:12
 msgid "About me"
 msgstr "个人简介"
 
-#: app/main/forms.py:13 app/main/forms.py:30
+#: app/main/forms.py:14 app/main/forms.py:31
 msgid "Submit"
 msgstr "提交"
 
-#: app/main/forms.py:24
+#: app/main/forms.py:25
 msgid "Username had been used."
 msgstr "用户名已被使用"
 
-#: app/main/forms.py:28
+#: app/main/forms.py:29
 msgid "Say someting"
 msgstr "说点什么吧"
 
-#: app/main/routes.py:38
+#: app/main/forms.py:35 app/main/routes.py:160
+msgid "Search"
+msgstr "搜索"
+
+#: app/main/routes.py:40
 msgid "Your post is now live!"
 msgstr "发送成功！"
 
-#: app/main/routes.py:50 app/templates/base.html:21
+#: app/main/routes.py:52 app/templates/base.html:21
 msgid "Home"
 msgstr "主页"
 
-#: app/main/routes.py:65 app/templates/base.html:22
+#: app/main/routes.py:67 app/templates/base.html:22
 msgid "Explore"
 msgstr "探索"
 
-#: app/main/routes.py:94
+#: app/main/routes.py:96
 msgid "Your changes have been saved."
 msgstr "保存成功！"
 
-#: app/main/routes.py:100 app/templates/edit_profile.html:5
+#: app/main/routes.py:102 app/templates/edit_profile.html:5
 msgid "Edit Profile"
 msgstr "编辑个人资料"
 
-#: app/main/routes.py:109 app/main/routes.py:125
+#: app/main/routes.py:111 app/main/routes.py:127
 #, python-format
 msgid "User %(username)s not found."
 msgstr "找不到用户%(username)s"
 
-#: app/main/routes.py:112
+#: app/main/routes.py:114
 msgid "You cannot follow yourself!"
 msgstr "你不能关注你自己！"
 
-#: app/main/routes.py:116
+#: app/main/routes.py:118
 #, python-format
 msgid "You are following %(username)s!"
 msgstr "你已经成功关注%(username)s！"
 
-#: app/main/routes.py:128
+#: app/main/routes.py:130
 msgid "You cannot unfollow yourself!"
 msgstr "你不能取消关注你自己！"
 
-#: app/main/routes.py:132
+#: app/main/routes.py:134
 #, python-format
 msgid "You are not following %(username)s."
 msgstr "不再关注%(username)s"
@@ -171,19 +175,19 @@ msgstr "翻译"
 msgid "Welcome to Microblog"
 msgstr "欢迎来到微博！"
 
-#: app/templates/base.html:26
+#: app/templates/base.html:35
 msgid "Login"
 msgstr "登录"
 
-#: app/templates/base.html:28
+#: app/templates/base.html:37
 msgid "Profile"
 msgstr "个人资料"
 
-#: app/templates/base.html:29
+#: app/templates/base.html:38
 msgid "Logout"
 msgstr "注销"
 
-#: app/templates/base.html:67
+#: app/templates/base.html:80
 msgid "Error: Could not contact server."
 msgstr "错误：服务器连接失败"
 
@@ -198,6 +202,18 @@ msgstr "上一页"
 
 #: app/templates/index.html:22 app/templates/user.html:40
 msgid "Older posts"
+msgstr "下一页"
+
+#: app/templates/search.html:4
+msgid "Search Results"
+msgstr "搜索结果"
+
+#: app/templates/search.html:13
+msgid "Previous results"
+msgstr "上一页"
+
+#: app/templates/search.html:18
+msgid "Next results"
 msgstr "下一页"
 
 #: app/templates/user.html:8
@@ -265,4 +281,3 @@ msgstr "出现了一个意料不到的错误"
 #: app/templates/errors/500.html:5
 msgid "The administrator has been notified. Sorry for the inconvenience!"
 msgstr "管理员正在修复了，很抱歉。"
-
