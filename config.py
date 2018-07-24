@@ -26,3 +26,6 @@ class Config(object):
     POSTS_PRE_PAGE = 25
     # 语言
     LANGUAGES = ['en' , 'cn', 'zh_CN']
+    # 腾讯翻译的key
+    TC_TRANSLATOR_ID = os.environ.get('TC_TRANSLATOR_ID')
+    TC_TRANSLATOR_KEY = os.environ.get('TC_TRANSLATOR_KEY')

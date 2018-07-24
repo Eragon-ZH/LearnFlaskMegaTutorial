@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request, g
+from flask import render_template, flash, redirect, url_for, request, g, jsonify
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from datetime import datetime
@@ -10,6 +10,7 @@ from app.models import User, Post
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, PostForm, \
                         ResetPasswordRequestForm, ResetPasswordForm
 from app.email import send_password_reset_email
+from app.translate import translate
 
 @app.before_request
 def before_request():
@@ -21,7 +22,7 @@ def before_request():
     g.locale = str(get_locale())
     # 经实验发现moment.lang设置为'zh_Hans_CN'不管用，设置成'zh_CN'才管用
     if g.locale == 'zh_Hans_CN':
-        g.locale = 'zh_CN'
+        g.locale = 'zh'
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
@@ -212,3 +213,10 @@ def reset_password(token):
         flash(_('Your password has been reset.'))
         return redirect(url_for('login'))
     return render_template('reset_password.html', form=form)
+
+@app.route('/translate', methods=['POST'])
+@login_required
+def translate_text():
+    return jsonify({'text': translate(request.form['text'],
+                                      request.form['source_language'],
+                                      request.form['dest_language'])})
