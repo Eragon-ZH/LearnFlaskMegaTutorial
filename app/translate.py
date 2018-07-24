@@ -5,7 +5,7 @@ import time
 import random
 import requests
 from flask_babel import _
-from app import app
+from flask import current_app
 
 def get_signature(secret_key, sign_str, sign_method):
     """计算公共参数中的signature"""
@@ -40,14 +40,14 @@ def translate(source_text, source, target):
     source_text: 待翻译文本(如‘hello’)
     traget: 目标语言(如’cn)
     """
-    if 'TC_TRANSLATOR_KEY' not in app.config or \
-            not app.config['TC_TRANSLATOR_KEY']:
+    if 'TC_TRANSLATOR_KEY' not in current_app.config or \
+            not current_app.config['TC_TRANSLATOR_KEY']:
         return _('Error: the translation service is not configured.')
-    if 'TC_TRANSLATOR_ID' not in app.config or \
-            not app.config['TC_TRANSLATOR_ID']:
+    if 'TC_TRANSLATOR_ID' not in current_app.config or \
+            not current_app.config['TC_TRANSLATOR_ID']:
         return _('Error: the translation service is not configured.')
-    secret_key = app.config['TC_TRANSLATOR_KEY']
-    secret_id = app.config['TC_TRANSLATOR_ID']
+    secret_key = current_app.config['TC_TRANSLATOR_KEY']
+    secret_id = current_app.config['TC_TRANSLATOR_ID']
     # UNIX时间戳，记录api请求的时间
     time_data = int(time.time())
     # 随机正整数用来与timestap联合起来防止重放攻击
@@ -66,9 +66,9 @@ def translate(source_text, source, target):
         'Region': 'ap-guangzhou',
         'SecretId': secret_id,
         'SignatureMethod': sign_method,
-        'Source': source,
+        'Source': source[:2],
         'SourceText': source_text,
-        'Target': target,
+        'Target': target[:2],
         'Timestamp': time_data,
         'Version': '2018-03-21',
         }
@@ -83,6 +83,7 @@ def translate(source_text, source, target):
     r = requests.get(url='https://'+request_url, params=sign_dict)
     # print(r.text)
     if r.status_code != 200:
+        print(r.status_code)
         return _('Error: the translation service failed.')
     try:
         r = r.json()

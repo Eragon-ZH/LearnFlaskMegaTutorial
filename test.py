@@ -1,14 +1,25 @@
+#!/usr/bin/flaskenv python
 from datetime import datetime, timedelta
 import unittest
-from app import app, db
+from app import create_app, db
 from app.models import User, Post
+from config import Config
+
+
+class TestConfig(Config):
+    """创建测试用的配置"""
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite://'
 
 class UserModelCase(unittest.TestCase):
     """测试user模型"""
     def setUp(self):
         """执行前的特殊方法"""
-        # 在测试中使用SQLite内存数据库
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://'
+        # 创建测试专用的应用
+        self.app = create_app(TestConfig)
+        # 为刚创建的应用实例推送一个应用上下文，这样db才知道去哪个config创建数据库
+        self.app_context = self.app.app_context()
+        self.app_context.push()
         # 创建数据库所有表
         db.create_all()
 
@@ -16,6 +27,8 @@ class UserModelCase(unittest.TestCase):
         """执行后的特殊方法"""
         db.session.remove()
         db.drop_all()
+        # 弹出上下文以便将所有内容重置
+        self.app_context.pop()
 
     def test_password_hashing(self):
         """测试密码的哈希函数"""

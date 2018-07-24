@@ -1,8 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField,\
-                    TextAreaField
-from wtforms.validators import DataRequired, ValidationError, Email, EqualTo,\
-                    Length
+from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from flask_babel import _, lazy_gettext as _l
 from app.models import User
 
@@ -46,28 +44,3 @@ class ResetPasswordForm(FlaskForm):
     password2 = PasswordField(_l('Repeat Password'),
                             validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField(_l('Request Password Reset'))
-
-class EditProfileForm(FlaskForm):
-    """个人资料编辑表单"""
-    username = StringField(_l('Username'), validators=[DataRequired()])
-    about_me = TextAreaField(_l('About me'),
-                                validators=[Length(min=0, max=140)])
-    submit = SubmitField(_l('Submit'))
-
-    def __init__(self, original_username, *args, **kwargs):
-        super(EditProfileForm, self).__init__(*args, **kwargs)
-        self.original_username = original_username
-
-    def validate_username(self, username):
-        """检查名字是否合法"""
-        # 同时多个进程同时读取数据库的时候可能仍会存在问题
-        if username.data != self.original_username:
-            user = User.query.filter_by(username=self.username.data).first()
-            if user is not None:
-                raise ValidationError(_('Username had been used.'))
-
-class PostForm(FlaskForm):
-    """发表微博表单"""
-    post = TextAreaField(_l('Say someting'), validators=[
-        DataRequired(), Length(min=1, max=140)])
-    submit = SubmitField(_l('Submit'))

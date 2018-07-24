@@ -4,3 +4,5 @@ migrations/
 logs/
 app.db
 messages.pot
+.env
+cmd.txt
