@@ -1,6 +1,5 @@
 __pycache__/
 flaskenv/
-migrations/
 logs/
 app.db
 messages.pot

@@ -35,3 +35,5 @@ class Config(object):
     TC_TRANSLATOR_KEY = os.environ.get('TC_TRANSLATOR_KEY')
     # Elasticsearch配置
     ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
+    # 日志输出位置
+    LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT')

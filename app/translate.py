@@ -80,7 +80,8 @@ def translate(source_text, source, target):
     # 将signature添加到请求参数中
     sign_dict['Signature'] = signature
     # 提交请求
-    r = requests.get(url='https://'+request_url, params=sign_dict)
+    r = requests.get(url='https://'+request_url, params=sign_dict,
+                     verify=False)
     # print(r.text)
     if r.status_code != 200:
         print(r.status_code)

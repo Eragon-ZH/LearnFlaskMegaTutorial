@@ -78,18 +78,26 @@ def create_app(config_class=Config):
             mail_handler.setLevel(logging.ERROR)
             # 添加到app.logger对象中
             app.logger.addHandler(mail_handler)
-        # 创建日志文件
-        # 目录不存在就创建
-        if not os.path.exists('logs'):
-            os.mkdir('logs')
-        # 日志最大文件大小为10kb，只保存最近的10个文件
-        file_handler = RotatingFileHandler('logs/microblog.log', maxBytes=10240,
-                                            backupCount=10)
-        # Fromatter提供日志消息的自定义模式
-        file_handler.setFormatter(logging.Formatter(
-            '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
-        file_handler.setLevel(logging.INFO)
-        app.logger.addHandler(file_handler)
+        if app.config['LOG_TO_STDOUT']:
+            stream_handler = logging.StreamHandler()
+            stream_handler.setLevel(logging.INFO)
+            app.logger.addHandler(stream_handler)
+        else:
+            # 创建日志文件
+            # 目录不存在就创建
+            if not os.path.exists('logs'):
+                os.mkdir('logs')
+            # 日志最大文件大小为10kb，只保存最近的10个文件
+            file_handler = RotatingFileHandler('logs/microblog.log',
+                                                maxBytes=10240,
+                                                backupCount=10)
+            # Fromatter提供日志消息的自定义模式
+            file_handler.setFormatter(logging.Formatter(
+                '%(asctime)s %(levelname)s: %(message)s '
+                '[in %(pathname)s:%(lineno)d]'))
+            file_handler.setLevel(logging.INFO)
+            app.logger.addHandler(file_handler)
+
         # 输出一条消息表示应用已经启动了，可以作为服务器重启的标志
         app.logger.setLevel(logging.INFO)
         app.logger.info('Microblog startup')

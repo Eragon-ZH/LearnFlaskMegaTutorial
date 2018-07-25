@@ -1,4 +1,4 @@
-from app import app, db, cli
+from app import create_app, db, cli
 from app.models import User, Post
 
 # 调用工厂函数创建
