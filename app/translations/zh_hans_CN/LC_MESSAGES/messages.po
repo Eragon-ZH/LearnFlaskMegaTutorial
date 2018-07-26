@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-07-24 22:10+0800\n"
+"POT-Creation-Date: 2018-07-26 14:31+0800\n"
 "PO-Revision-Date: 2018-07-20 14:18+0800\n"
 "Last-Translator: Dovahkiin\n"
 "Language: zh_Hans_CN\n"
@@ -26,11 +26,11 @@ msgstr "请登录后查看"
 msgid "Error: the translation service is not configured."
 msgstr "错误：找不到翻译服务器"
 
-#: app/translate.py:87
+#: app/translate.py:88
 msgid "Error: the translation service failed."
 msgstr "错误：翻译服务器连接失败"
 
-#: app/translate.py:93
+#: app/translate.py:94
 msgid "Error: translation failed."
 msgstr "错误：翻译失败"
 
@@ -115,7 +115,7 @@ msgstr "用户名已被使用"
 msgid "Say someting"
 msgstr "说点什么吧"
 
-#: app/main/forms.py:35 app/main/routes.py:160
+#: app/main/forms.py:35 app/main/routes.py:167
 msgid "Search"
 msgstr "搜索"
 
@@ -131,43 +131,43 @@ msgstr "主页"
 msgid "Explore"
 msgstr "探索"
 
-#: app/main/routes.py:96
+#: app/main/routes.py:103
 msgid "Your changes have been saved."
 msgstr "保存成功！"
 
-#: app/main/routes.py:102 app/templates/edit_profile.html:5
+#: app/main/routes.py:109 app/templates/edit_profile.html:5
 msgid "Edit Profile"
 msgstr "编辑个人资料"
 
-#: app/main/routes.py:111 app/main/routes.py:127
+#: app/main/routes.py:118 app/main/routes.py:134
 #, python-format
 msgid "User %(username)s not found."
 msgstr "找不到用户%(username)s"
 
-#: app/main/routes.py:114
+#: app/main/routes.py:121
 msgid "You cannot follow yourself!"
 msgstr "你不能关注你自己！"
 
-#: app/main/routes.py:118
+#: app/main/routes.py:125
 #, python-format
 msgid "You are following %(username)s!"
 msgstr "你已经成功关注%(username)s！"
 
-#: app/main/routes.py:130
+#: app/main/routes.py:137
 msgid "You cannot unfollow yourself!"
 msgstr "你不能取消关注你自己！"
 
-#: app/main/routes.py:134
+#: app/main/routes.py:141
 #, python-format
 msgid "You are not following %(username)s."
 msgstr "不再关注%(username)s"
 
-#: app/templates/_post.html:15
+#: app/templates/_post.html:17
 #, python-format
 msgid "%(username)s said %(when)s"
 msgstr "%(username)s%(when)s"
 
-#: app/templates/_post.html:26
+#: app/templates/_post.html:28
 msgid "Translate"
 msgstr "翻译"
 
@@ -220,29 +220,29 @@ msgstr "下一页"
 msgid "User"
 msgstr "用户"
 
-#: app/templates/user.html:11
+#: app/templates/user.html:11 app/templates/user_popup.html:16
 msgid "Last seen on"
 msgstr "上次登录"
 
-#: app/templates/user.html:13
+#: app/templates/user.html:13 app/templates/user_popup.html:19
 #, python-format
 msgid "%(count)d followers"
 msgstr "%(count)d 粉丝"
 
-#: app/templates/user.html:14
+#: app/templates/user.html:14 app/templates/user_popup.html:20
 #, python-format
 msgid "%(count)d following"
 msgstr "%(count)d 关注"
 
-#: app/templates/user.html:17
+#: app/templates/user.html:17 app/templates/user_popup.html:23
 msgid "Edit your profile"
 msgstr "编辑个人资料"
 
-#: app/templates/user.html:20
+#: app/templates/user.html:20 app/templates/user_popup.html:26
 msgid "Follow"
 msgstr "关注"
 
-#: app/templates/user.html:23
+#: app/templates/user.html:23 app/templates/user_popup.html:29
 msgid "Unfollow"
 msgstr "取消关注"
 
@@ -281,3 +281,4 @@ msgstr "出现了一个意料不到的错误"
 #: app/templates/errors/500.html:5
 msgid "The administrator has been notified. Sorry for the inconvenience!"
 msgstr "管理员正在修复了，很抱歉。"
+
